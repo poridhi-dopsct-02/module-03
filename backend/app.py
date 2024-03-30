@@ -4,16 +4,21 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 mongo_db_url = os.environ.get("MONGO_DB_CONNECTION_STRING")
 
 client = MongoClient(mongo_db_url)
 db = client['expense']
 
 @app.post("/api/expense")
+@cross_origin()
 def addExpense():
     requestBody = request.json
     print(requestBody)
@@ -29,12 +34,12 @@ def get_sensors():
     
     print(expenses)
     transactions = []
-    totalEarning = 0
+    totalIncome = 0
     totalExpense = 0
 
     for expense in expenses:
         if(float(expense["amount"])>0):
-            totalEarning += expense["amount"]
+            totalIncome += expense["amount"]
         else:
             totalExpense += expense["amount"]
             
@@ -46,7 +51,7 @@ def get_sensors():
     transactions.reverse()
     
     responseData = {
-            "totalEarning": totalEarning,
+            "totalIncome": totalIncome,
             "totalExpense": totalExpense,
             "transactions" : transactions
         }
