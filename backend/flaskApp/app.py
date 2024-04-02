@@ -1,18 +1,15 @@
 import os
 from flask import Flask, Response, request, jsonify
-from dotenv import load_dotenv
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask_cors import CORS, cross_origin
 
-load_dotenv()
-
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-mongo_db_url = os.environ.get("MONGO_DB_CONNECTION_STRING")
+mongo_db_url = os.environ.get("mongodb://localhost:27017/expense")
 
 client = MongoClient(mongo_db_url)
 db = client['expense']
