@@ -1,14 +1,12 @@
-FROM python:3.6.8-alpine3.9
+FROM python:3.12.3-alpine3.19
 
 WORKDIR /
 
 ADD . .
 
-RUN pip install pipenv --break-system-packages
+ENV MONGO_DB_CONNECTION_STRING="mongodb://localhost:27017/expense"
 
-RUN pipenv install
-
-RUN pipenv shell
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 

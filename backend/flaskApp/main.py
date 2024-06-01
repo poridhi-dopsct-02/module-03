@@ -9,8 +9,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
-mongo_db_url = os.environ.get("mongodb://localhost:27017/expense")
-
+mongo_db_url = os.environ.get("MONGO_DB_CONNECTION_STRING")
 client = MongoClient(mongo_db_url)
 db = client["expense"]
 
@@ -30,6 +29,8 @@ def addExpense():
 @app.get("/api/expense")
 @cross_origin()
 def get_expenses():
+    print(mongo_db_url)
+    
     expenses = list(db.expense.find())
 
     print(expenses)
