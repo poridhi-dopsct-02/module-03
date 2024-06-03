@@ -4,7 +4,7 @@ WORKDIR /
 
 ADD . .
 
-ENV MONGO_DB_CONNECTION_STRING="mongodb://localhost:27017/expense"
+ENV MONGO_DB_CONNECTION_STRING="mongodb://mongodb:27017/expense?authSource=admin"
 
 RUN pip install -r requirements.txt
 
