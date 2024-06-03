@@ -14,6 +14,13 @@ client = MongoClient(mongo_db_url)
 db = client["expense"]
 
 
+@app.get("/api/health")
+def health():
+    resp = jsonify({"message": "OK"})
+    resp.status_code = 200
+    return resp
+
+
 @app.post("/api/expense")
 @cross_origin()
 def addExpense():
@@ -30,7 +37,7 @@ def addExpense():
 @cross_origin()
 def get_expenses():
     print(mongo_db_url)
-    
+
     expenses = list(db.expense.find())
 
     print(expenses)

@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:5000/api/expense";
+const baseURL = "http://backend:8000/api/expense";
 
 export const fetchExpenses = () => {
   return axios.get(baseURL).then((response) => {

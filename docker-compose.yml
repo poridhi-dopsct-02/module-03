@@ -1,43 +1,31 @@
-version: '3'
+version: "3.8"
+
 services:
   mongodb:
-    image: mongo:4.0.8
+    image: 'mongo'
     container_name: mongodb
-    restart: unless-stopped
-    # command: mongod --auth
-    environment:
-      MONGODB_DATA_DIR: /data/db
     volumes:
-      - mongodbdata:/data/db
-    networks:
-      - backend
+      - data:/data/db
 
-  flask:
-    build:
-      context: flaskApp
-      dockerfile: Dockerfile
+  backend:
     container_name: flaskapp
-    restart: unless-stopped
-    environment:
-      APP_ENV: "prod"
-      APP_DEBUG: "False"
-      APP_PORT: 8000
-    volumes:
-      - appdata:/var/www
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
     depends_on:
       - mongodb
-    networks:
-      - frontend
+
+  frontend:
+    container_name: react-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
       - backend
 
-networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
-
 volumes:
-  mongodbdata:
-    driver: local
-  appdata:
-    driver: local
+  data:
