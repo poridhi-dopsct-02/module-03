@@ -9,6 +9,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
+app_port = os.environ.get("APP_PORT")
 mongo_db_url = os.environ.get("MONGO_DB_CONNECTION_STRING")
 client = MongoClient(mongo_db_url)
 db = client["expense"]
@@ -86,4 +87,5 @@ def removeExpense(recordId):
     return resp
 
 
-app.run(port=8000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=app_port)
