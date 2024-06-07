@@ -12,6 +12,9 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - path: ./backend/.env.local
+        required: true
     depends_on:
       - mongodb
 
